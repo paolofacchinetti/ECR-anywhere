@@ -26,5 +26,5 @@ spec:
           DOCKER_REGISTRY_SERVER={{ .Values.ecr.docker_registry_server }}
           DOCKER_USER=AWS
           DOCKER_PASSWORD=`aws ecr get-login-password`
-          kubectl delete secret aws-ecr-regcred || true
-          kubectl create secret docker-registry aws-ecr-regcred --docker-server=${DOCKER_REGISTRY_SERVER} --docker-username=${DOCKER_USER} --docker-password=${DOCKER_PASSWORD}
+          kubectl delete secret {{ .Values.secret.name}} || true
+          kubectl create secret docker-registry {{ .Values.secret.name}} --docker-server=${DOCKER_REGISTRY_SERVER} --docker-username=${DOCKER_USER} --docker-password=${DOCKER_PASSWORD}

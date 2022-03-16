@@ -9,3 +9,6 @@ job:
   image:
     name: paolofacchinetti/aws-kubectl # you can replace this with your own docker image built from the Dockerfile in this repository
     tag: latest
+
+secret:
+  name: my-ecr-token
