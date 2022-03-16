@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ecr-refresher
+spec:
+  schedule: '0 */8 * * *' # every 8 hours
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      backoffLimit: 4
+      template:
+        spec:
+          serviceAccountName: svac-ecr-kube-helper
+          terminationGracePeriodSeconds: 0
+          restartPolicy: Never
+          containers:
+            - name: ecr-refresher
+              imagePullPolicy: Always
+              image: "{{ .Values.job.image.name }}:{{ .Values.job.image.tag }}"
+              command:
+                - '/bin/sh'
+                - '-c'
+                - |
+                  AWS_ACCOUNT={{ .Values.ecr.aws_account }}
+                  AWS_REGION={{ .Values.ecr.aws_region }}
+                  mkdir ~/.aws
+                  printf "[default]\nregion = {{ .Values.ecr.aws_region }}\noutput = json" > ~/.aws/config
+                  printf "[default]\naws_access_key_id = {{ .Values.ecr.aws_access_key_id }}\naws_secret_access_key = {{ .Values.ecr.aws_secret_access_key }}" > ~/.aws/credentials
+                  DOCKER_REGISTRY_SERVER={{ .Values.ecr.docker_registry_server }}
+                  DOCKER_USER=AWS
+                  DOCKER_PASSWORD=`aws ecr get-login-password`
+                  kubectl delete secret aws-ecr-regcred || true
+                  kubectl create secret docker-registry aws-ecr-regcred --docker-server=${DOCKER_REGISTRY_SERVER} --docker-username=${DOCKER_USER} --docker-password=${DOCKER_PASSWORD}
