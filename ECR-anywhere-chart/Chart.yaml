@@ -1,0 +1,7 @@
+apiVersion: v2
+name: ecr-anywhere
+version: 1.1.0
+appVersion: 1.1.0
+description: use AWS ECR private repositories outside of EKS
+maintainers:
+  - name: 'Paolo Facchinetti'

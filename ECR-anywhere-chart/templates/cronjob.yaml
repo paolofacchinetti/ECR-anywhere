@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: ecr-refresher
+  name: ecr-anywhere
 spec:
   schedule: '0 */8 * * *' # every 8 hours
   successfulJobsHistoryLimit: 2
@@ -15,7 +15,7 @@ spec:
           terminationGracePeriodSeconds: 0
           restartPolicy: Never
           containers:
-            - name: ecr-refresher
+            - name: ecr-anywhere
               imagePullPolicy: Always
               image: "{{ .Values.job.image.name }}:{{ .Values.job.image.tag }}"
               command:

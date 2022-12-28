@@ -1,17 +1,17 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ecr-refresher-first-setup
+  name: ecr-anywhere-first-setup
 spec:
   template:
     metadata:
-      name: ecr-refresher-first-setup
+      name: ecr-anywhere-first-setup
     spec:
       serviceAccountName: svac-ecr-kube-helper
       terminationGracePeriodSeconds: 0
       restartPolicy: Never
       containers:
-      - name: ecr-refresher-first-setup
+      - name: ecr-anywhere-first-setup
         imagePullPolicy: Always
         image: "{{ .Values.job.image.name }}:{{ .Values.job.image.tag }}"
         command:
