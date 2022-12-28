@@ -18,13 +18,13 @@ spec:
         - "/bin/sh"
         - "-c"
         - |
-          AWS_ACCOUNT={{ .Values.ecr.aws_account }}
           AWS_REGION={{ .Values.ecr.aws_region }}
           mkdir ~/.aws
           printf "[default]\nregion = {{ .Values.ecr.aws_region }}\noutput = json" > ~/.aws/config
           printf "[default]\naws_access_key_id = {{ .Values.ecr.aws_access_key_id }}\naws_secret_access_key = {{ .Values.ecr.aws_secret_access_key }}" > ~/.aws/credentials
-          DOCKER_REGISTRY_SERVER={{ .Values.ecr.docker_registry_server }}
+          DOCKER_REGISTRY_SERVER=https://{{ .Values.ecr.aws_account }}.dkr.ecr.{{ .Values.ecr.aws_region }}.amazonaws.com
           DOCKER_USER=AWS
           DOCKER_PASSWORD=`aws ecr get-login-password`
           kubectl delete secret {{ .Values.secret.name}} || true
           kubectl create secret docker-registry {{ .Values.secret.name}} --docker-server=${DOCKER_REGISTRY_SERVER} --docker-username=${DOCKER_USER} --docker-password=${DOCKER_PASSWORD}
+          echo "Updated ECR token"

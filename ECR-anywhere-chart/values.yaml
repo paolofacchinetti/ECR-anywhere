@@ -1,5 +1,4 @@
 ecr:
-  docker_registry_server: https://<your-account-id>.dkr.ecr.<aws-region>.amazonaws.com # i.e. aws-region = us-east-1
   # your aws account ID
   aws_account:
   # the aws region where your ECR private repo resides (i.e. eu-central-1)
