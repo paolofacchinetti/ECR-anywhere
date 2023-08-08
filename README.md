@@ -27,6 +27,6 @@ To deploy a pod from a private ECR repository, simply change your deployment yam
 
 ### AWS-Kubectl image
 
-ECR-anywhere depends on the docker image [paolofacchinetti/aws-kubectl](https://hub.docker.com/repository/docker/paolofacchinetti/aws-kubectl), look at the [Dockerfile](/Dockerfile) for more info.
+ECR-anywhere depends on the docker image [paolofacchinetti/aws-kubectl](https://hub.docker.com/r/paolofacchinetti/aws-kubectl), look at the [Dockerfile](/Dockerfile) for more info.
 
 Since AWS-Cli and Kubectl are in active development and have frequent releases, it's possible that the latest image of `paolofacchinetti/aws-kubectl` will not work (by AWS/k8s API deprecations, incompatibilities, etc.). You're free to build your own version of the image and use that one instead. The `values.yaml` file of the chart allows you to override the default image used by ECR-Anywhere.
